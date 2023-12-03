@@ -3,7 +3,7 @@ import { useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getMovieDetail } from "./api";
 import { useQuery } from "react-query";
-import { makeImagePath } from "../utils";
+import { NEXFLIX_LOGO_URL, makeImagePath } from "../utils";
 
 const Overlay = styled(motion.div)`
   position: fixed;
@@ -77,7 +77,9 @@ function Detail() {
                 <BigCover
                   style={{
                     backgroundImage: `linear-gradient( to top, black, transparent), url(${makeImagePath(
-                      clickedMovie.backdrop_path || clickedMovie.poster_path,
+                      clickedMovie.backdrop_path ||
+                        clickedMovie.poster_path ||
+                        NEXFLIX_LOGO_URL,
                       "w500"
                     )})`,
                   }}

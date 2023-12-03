@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { IGetMoviesResult, getMovies } from "../Components/api";
 import styled from "styled-components";
-import { makeImagePath } from "../utils";
+import { NEXFLIX_LOGO_URL, makeImagePath } from "../utils";
 import { useMvMultipleQuery } from "../Hook/useMvMultipleQuery";
 import Slider from "../Components/Slider";
 import Detail from "../Components/Detail";
@@ -45,9 +45,15 @@ const SliderPart = styled.div`
   margin-top: -100px;
 `;
 
-const SliderWrapper = styled.div``;
+const SliderWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
 
 const SliderTitle = styled.div`
+  padding-left: 10px;
+  font-weight: bold;
   font-size: 20px;
   color: ${(props) => props.theme.white.lighter};
 `;
@@ -55,29 +61,31 @@ const SliderTitle = styled.div`
 function Home() {
   const [
     { isLoading: loadingLatest, data: latestData },
+    { isLoading: loadingNowPlaying, data: playingData },
     { isLoading: loadingTopRates, data: topRatedData },
     { isLoading: loadingUpComing, data: upComingData },
   ] = useMvMultipleQuery();
 
-  const { data, isLoading } = useQuery<IGetMoviesResult>(
-    ["movies", "nowPlaying"],
-    getMovies
-  );
-
   return (
     <Wrapper>
-      {isLoading ? (
+      {loadingLatest ? (
         <Loader>Loading...</Loader>
       ) : (
         <>
-          <Banner bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}>
-            <Title>{data?.results[0].title}</Title>
-            <Overview>{data?.results[0].overview}</Overview>
+          <Banner
+            bgPhoto={makeImagePath(
+              latestData?.backdrop_path ||
+                latestData?.poster_path ||
+                NEXFLIX_LOGO_URL
+            )}
+          >
+            <Title>{latestData?.title}</Title>
+            <Overview>{latestData?.overview}</Overview>
           </Banner>
           <SliderPart>
             <SliderWrapper>
               <SliderTitle>Now Playing</SliderTitle>
-              {!isLoading && <Slider data={data} />}
+              {!loadingNowPlaying && <Slider data={playingData} />}
             </SliderWrapper>
             <SliderWrapper>
               <SliderTitle>Top Rated</SliderTitle>

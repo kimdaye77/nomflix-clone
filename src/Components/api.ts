@@ -6,6 +6,7 @@ export interface IMovie {
   backdrop_path: string;
   poster_path: string;
   title: string;
+  name: string;
   overview: string;
 }
 
@@ -53,13 +54,6 @@ export async function getUpComingMv() {
   return await response.json();
 }
 
-export async function getTV() {
-  const response = await fetch(
-    `${BASE_PATH}/tv/now_playing?api_key=${API_KEY}`
-  );
-  return await response.json();
-}
-
 export async function getLatestTv() {
   const response = await fetch(`${BASE_PATH}/tv/latest?api_key=${API_KEY}`);
   return await response.json();
@@ -72,7 +66,25 @@ export async function getAiringTv() {
   return await response.json();
 }
 
+export async function getPopularTv() {
+  const response = await fetch(`${BASE_PATH}/tv/popular?api_key=${API_KEY}`);
+  return await response.json();
+}
+
 export async function getTopRatedTv() {
   const response = await fetch(`${BASE_PATH}/tv/top_rated?api_key=${API_KEY}`);
+  return await response.json();
+}
+
+export async function getSearchMv(keyword: string) {
+  const response = await fetch(
+    `${BASE_PATH}/search/movie?api_key=${API_KEY}&query=${keyword}`
+  );
+  return await response.json();
+}
+export async function getSearchTv(keyword: string) {
+  const response = await fetch(
+    `${BASE_PATH}/search/tv?api_key=${API_KEY}&query=${keyword}`
+  );
   return await response.json();
 }

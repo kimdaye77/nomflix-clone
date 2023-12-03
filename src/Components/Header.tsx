@@ -55,7 +55,7 @@ const Search = styled.form`
   display: flex;
   align-items: center;
   color: white;
-
+  cursor: pointer;
   svg {
     height: 25px;
   }

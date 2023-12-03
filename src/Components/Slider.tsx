@@ -1,8 +1,9 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import styled from "styled-components";
-import { makeImagePath } from "../utils";
+import { NEXFLIX_LOGO_URL, makeImagePath } from "../utils";
 import { useNavigate } from "react-router-dom";
+import { IMovie } from "./api";
 
 const Wrapper = styled.div``;
 
@@ -109,7 +110,7 @@ function Slider({ data }: any) {
           {data?.results
             .slice(1)
             .slice(offset * index, offset * index + offset)
-            .map((movie: any) => (
+            .map((movie: IMovie) => (
               <Box
                 layoutId={movie.id + ""}
                 key={movie.id}
@@ -117,14 +118,17 @@ function Slider({ data }: any) {
                 initial="normal"
                 variants={boxVariants}
                 transition={{ type: "tween", duration: 0.1, delay: 0.5 }}
-                bgPhoto={makeImagePath(movie.backdrop_path, "w500")}
+                bgPhoto={makeImagePath(
+                  movie.backdrop_path || movie.poster_path || NEXFLIX_LOGO_URL,
+                  "w500"
+                )}
                 onClick={() => onBoxClicked(movie.id)}
               >
                 <Info
                   variants={infoVariants}
                   transition={{ type: "tween", duration: 0.1, delay: 0.5 }}
                 >
-                  <h4>{movie.title}</h4>
+                  <h4>{movie.title || movie.name}</h4>
                 </Info>
               </Box>
             ))}
