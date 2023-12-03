@@ -34,21 +34,47 @@ const BigCover = styled.div`
   height: 400px;
   background-size: cover;
   background-position: center center;
+  position: relative;
 `;
 
 const BigTitle = styled.h3`
   color: ${(props) => props.theme.white.lighter};
   padding: 10px;
   font-size: 46px;
-  position: relative;
-  top: -80px;
+  position: absolute;
+  bottom: 0px;
+`;
+
+const BigDesc = styled.div`
+  padding: 20px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 400px;
+  gap: 15px;
+`;
+const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Genre = styled.div`
+  font-weight: bold;
+`;
+
+const Adult = styled.div<{ adult: boolean }>`
+  font-weight: 600;
+  color: ${(props) => (props.adult ? props.theme.red : "pink")};
 `;
 
 const BigOverview = styled.p`
   color: ${(props) => props.theme.white.lighter};
-  padding: 20px;
-  position: relative;
-  top: -80px;
+  display: -webkit-box;
+  word-break: break-all;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  text-overflow: ellipsis;
 `;
 
 function Detail() {
@@ -83,9 +109,24 @@ function Detail() {
                       "w500"
                     )})`,
                   }}
-                />
-                <BigTitle>{clickedMovie.title}</BigTitle>
-                <BigOverview>{clickedMovie.overview}</BigOverview>
+                >
+                  <BigTitle>{clickedMovie.title}</BigTitle>
+                </BigCover>
+                <BigDesc>
+                  <Row>
+                    <Genre>{clickedMovie.genres[0].name}</Genre>
+                    <Adult adult={clickedMovie.adult}>
+                      {clickedMovie.ault ? "for Adult" : "for Not adult"}
+                    </Adult>
+                  </Row>
+                  <BigOverview>
+                    {clickedMovie.production_countries[0].name}
+                  </BigOverview>
+                  <BigOverview>
+                    {clickedMovie.production_companies[0].name}
+                  </BigOverview>
+                  <BigOverview>{clickedMovie.overview}</BigOverview>
+                </BigDesc>
               </>
             )}
           </BigMovie>

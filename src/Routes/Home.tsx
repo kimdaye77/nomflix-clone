@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { IGetMoviesResult, getMovies } from "../Components/api";
+import { IGetMoviesResult, getMovieDetail, getMovies } from "../Components/api";
 import styled from "styled-components";
 import { NEXFLIX_LOGO_URL, makeImagePath } from "../utils";
 import { useMvMultipleQuery } from "../Hook/useMvMultipleQuery";
@@ -26,6 +26,7 @@ const Banner = styled.div<{ bgPhoto: string }>`
   background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
     url(${(props) => props.bgPhoto});
   background-size: cover;
+  background-position: center center;
 `;
 
 const Title = styled.h2`
@@ -58,6 +59,10 @@ const SliderTitle = styled.div`
   color: ${(props) => props.theme.white.lighter};
 `;
 
+function getDetail(movieId: string) {
+  return getMovieDetail(Number(movieId));
+}
+
 function Home() {
   const [
     { isLoading: loadingLatest, data: latestData },
@@ -68,19 +73,19 @@ function Home() {
 
   return (
     <Wrapper>
-      {loadingLatest ? (
+      {loadingNowPlaying ? (
         <Loader>Loading...</Loader>
       ) : (
         <>
           <Banner
             bgPhoto={makeImagePath(
-              latestData?.backdrop_path ||
-                latestData?.poster_path ||
+              playingData?.results[0].backdrop_path ||
+                playingData?.results[0].poster_path ||
                 NEXFLIX_LOGO_URL
             )}
           >
-            <Title>{latestData?.title}</Title>
-            <Overview>{latestData?.overview}</Overview>
+            <Title>{playingData?.results[0]?.title}</Title>
+            <Overview>{playingData?.results[0]?.overview}</Overview>
           </Banner>
           <SliderPart>
             <SliderWrapper>

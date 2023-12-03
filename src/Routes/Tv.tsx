@@ -24,6 +24,7 @@ const Banner = styled.div<{ bgPhoto: string }>`
   background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
     url(${(props) => props.bgPhoto});
   background-size: cover;
+  background-position: center center;
 `;
 
 const Title = styled.h2`
@@ -65,19 +66,19 @@ function Tv() {
   ] = useTvMultipleQuery();
   return (
     <Wrapper>
-      {loadingLatest ? (
+      {loadingAiring ? (
         <Loader>Loading...</Loader>
       ) : (
         <>
           <Banner
             bgPhoto={makeImagePath(
-              latestData?.backdrop_path ||
-                latestData?.poster_path ||
+              airingData?.results[0]?.backdrop_path ||
+                airingData?.results[0]?.poster_path ||
                 NEXFLIX_LOGO_URL
             )}
           >
-            <Title>{latestData?.title}</Title>
-            <Overview>{latestData?.overview}</Overview>
+            <Title>{airingData?.results[0]?.title}</Title>
+            <Overview>{airingData?.results[0]?.overview}</Overview>
           </Banner>
           <SliderPart>
             <SliderWrapper>
