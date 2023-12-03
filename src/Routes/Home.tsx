@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { makeImagePath } from "../utils";
 import { AnimatePresence, motion, useViewportScroll } from "framer-motion";
 import { useState } from "react";
-import { useHistory, useRouteMatch } from "react-router-dom";
+import { useMatch, useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
   background: black;
@@ -165,8 +165,8 @@ const infoVariants = {
 const offset = 6;
 
 function Home() {
-  const history = useHistory();
-  const bigMovieMatch = useRouteMatch<{ movieId: string }>("/movies/:movieId");
+  const navigate = useNavigate();
+  const bigMovieMatch = useMatch("/movies/:movieId");
   const { scrollY } = useViewportScroll();
   const { data, isLoading } = useQuery<IGetMoviesResult>(
     ["movies", "nowPlaying"],
@@ -185,12 +185,12 @@ function Home() {
   };
   const toggleLeaving = () => setLeaving((prev) => !prev);
   const onBoxClicked = (movieId: number) => {
-    history.push(`/movies/${movieId}`);
+    navigate(`/movies/${movieId}`);
   };
-  const onOverlayClick = () => history.push("/");
+  const onOverlayClick = () => navigate("/");
   const clickedMovie =
     bigMovieMatch?.params.movieId &&
-    data?.results.find((movie) => movie.id === +bigMovieMatch.params.movieId);
+    data?.results.find((movie) => movie.id === +bigMovieMatch.params.movieId!);
   return (
     <Wrapper>
       {isLoading ? (

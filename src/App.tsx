@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./Routes/Home";
 import Tv from "./Routes/Tv";
 import Search from "./Routes/Search";
@@ -6,19 +6,14 @@ import Header from "./Components/Header";
 
 function App() {
   return (
-    <Router>
+    <Router basename="/nomflix-clone">
       <Header />
-      <Switch>
-        <Route path="/tv">
-          <Tv />
-        </Route>
-        <Route path="/search">
-          <Search />
-        </Route>
-        <Route path={["/", "/movies/:movieId"]}>
-          <Home />
-        </Route>
-      </Switch>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="movies/:id" element={<Home />} />
+        <Route path="/tv" element={<Tv />} />
+        <Route path="/search" element={<Search />} />
+      </Routes>
     </Router>
   );
 }
