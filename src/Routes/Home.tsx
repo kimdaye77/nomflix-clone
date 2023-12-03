@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { makeImagePath } from "../utils";
 import { useMvMultipleQuery } from "../Hook/useMvMultipleQuery";
 import Slider from "../Components/Slider";
+import Detail from "../Components/Detail";
 
 const Wrapper = styled.div`
   background: black;
@@ -41,8 +42,7 @@ const SliderPart = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  position: relative;
-  top: -100px;
+  margin-top: -100px;
 `;
 
 const SliderWrapper = styled.div``;
@@ -55,7 +55,7 @@ const SliderTitle = styled.div`
 function Home() {
   const [
     { isLoading: loadingLatest, data: latestData },
-    { isLoading: loadingTopRatest, data: topRatedData },
+    { isLoading: loadingTopRates, data: topRatedData },
     { isLoading: loadingUpComing, data: upComingData },
   ] = useMvMultipleQuery();
 
@@ -81,13 +81,14 @@ function Home() {
             </SliderWrapper>
             <SliderWrapper>
               <SliderTitle>Top Rated</SliderTitle>
-              {!loadingLatest && <Slider data={topRatedData} />}
+              {!loadingTopRates && <Slider data={topRatedData} />}
             </SliderWrapper>
             <SliderWrapper>
               <SliderTitle>Upcoming</SliderTitle>
               {!loadingUpComing && <Slider data={upComingData} />}
             </SliderWrapper>
           </SliderPart>
+          <Detail />
         </>
       )}
     </Wrapper>

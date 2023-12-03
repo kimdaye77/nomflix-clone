@@ -27,6 +27,13 @@ export async function getMovies() {
   return await response.json();
 }
 
+export async function getMovieDetail(movie_id: number) {
+  const response = await fetch(
+    `${BASE_PATH}/movie/${movie_id}?language=en-US&api_key=${API_KEY}`
+  );
+  return await response.json();
+}
+
 export async function getLatestMv() {
   const response = await fetch(`${BASE_PATH}/movie/latest?api_key=${API_KEY}`);
   return await response.json();
@@ -38,6 +45,7 @@ export async function getTopRatedMv() {
   );
   return await response.json();
 }
+
 export async function getUpComingMv() {
   const response = await fetch(
     `${BASE_PATH}/movie/upcoming?api_key=${API_KEY}`
